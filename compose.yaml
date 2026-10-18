@@ -1,0 +1,15 @@
+name: sondehub-yamcs-bridge
+services:
+  bridge:
+    build: ./bridge
+    restart: unless-stopped
+    # Linux/Fedora: reach an existing Yamcs at host localhost, including a
+    # different Compose stack whose Yamcs port is published to 127.0.0.1.
+    network_mode: host
+    environment:
+      YAMCS_URL: ${YAMCS_URL:-http://127.0.0.1:8090}
+      BIND_HOST: 127.0.0.1
+    volumes:
+      - ./data:/data:Z
+    logging:
+      driver: local
